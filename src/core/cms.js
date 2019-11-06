@@ -100,11 +100,18 @@ const navigateHandler = async (event) => {
 
 export const nav = async (routes) => {
     APP_ROUTES = routesToTraversable(routes);
+    const callbacks = [];
     window.addEventListener('popstate', popStateHandler);
     window.addEventListener('beforeunload', removeNavHandlers);
     document.addEventListener('click', navigateHandler);
     await navigate(document.location.pathname, false);
     on(document, 'nav', (event) => {
-        console.log('Call all registered handlers for nav', event);
+        callbacks.forEach((callback) => callback(event.detail));
     });
+
+    return {
+        onNav: (callback) => {
+            callbacks.push(callback);
+        }
+    };
 };
