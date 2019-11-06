@@ -58,11 +58,11 @@ const matchRoute = (path, traversableRoutes) => {
     return null;
 };
 
-const popStateHandler = async (event) => {
+const popStateHandler = async () => {
     await navigate(document.location.pathname);
 };
 
-const removeNavHandlers = (event) => {
+const removeNavHandlers = () => {
     window.removeEventListener('popstate', popStateHandler);
     document.removeEventListener('click', navigateHandler);
 };
@@ -90,7 +90,10 @@ const navigateHandler = async (event) => {
             event.preventDefault();
             await navigate(target.getAttribute('href'));
         } else {
-            target.setAttribute('target', '_blank');
+            setAttributes(target, {
+                target: '_blank',
+                rel: 'noopener'
+            });
         }
     }
 };
@@ -100,9 +103,6 @@ export const nav = async (routes) => {
     window.addEventListener('popstate', popStateHandler);
     window.addEventListener('beforeunload', removeNavHandlers);
     document.addEventListener('click', navigateHandler);
-    window.addEventListener('pushstate', () => {
-        console.log('pushstate');
-    });
     await navigate(document.location.pathname, false);
     on(document, 'nav', (event) => {
         console.log('Call all registered handlers for nav', event);
