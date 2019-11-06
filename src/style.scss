@@ -140,24 +140,3 @@ a.btn {
         padding: 20px;
     }
 }
-
-.main ul {
-    padding: 0;
-    list-style: none;
-    border-top: 1px solid $nord4;
-    li {
-        margin: 0;
-        padding: 8px 0;
-        color: $nord3;
-        border-bottom: 1px solid $nord4;
-        font-size: 14px;
-        a {
-            font-size: 18px;
-            display: block;
-            &:before {
-                content: "\00bb";
-                margin-right: 4px;
-            }
-        }
-    }
-}
