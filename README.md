@@ -11,6 +11,7 @@ Simple markdown driven site with routing client-side only - [yetric/cms.js](http
 -   Preconfigured for CircleCI
 -   VanillaJS router and pushState management
 -   Session cache on pages
+-   Handles 404 by setting robots noindex
 
 ## TODO
 
