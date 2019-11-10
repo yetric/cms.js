@@ -1,0 +1,5 @@
+{
+    "baseURL": "https://yetric-cms.netlify.com",
+    "title": "Yetric CMS",
+    "description": "Simple markdown driven site with routing client-side only"
+}
