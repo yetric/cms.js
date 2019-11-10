@@ -1,4 +1,4 @@
-import {isExistingPath, isPushStateURL} from './utils';
+import {isExistingPath, isPushStateURL, setAttributes} from './utils';
 import {triggerEvent, on} from './events';
 
 let APP_ROUTES = [];
@@ -8,6 +8,37 @@ const pageCache = {};
 export const prefetch = async (tpl, type) => {
     pageCache[tpl] = await import(`../${type}/${tpl}.md`);
     return true;
+};
+
+export const onError = (error) => {
+    console.error(error);
+};
+
+/* WiP - Handle 404 with noindex meta tag */
+export const injectToHead = (elm) => {
+    document.getElementsByTagName('head')[0].appendChild(elm);
+};
+
+export const setMetaTag = (metaType, value) => {
+    const metaTag = document.createElement('meta');
+    setAttributes(metaTag, {
+        name: metaType,
+        content: value
+    });
+    injectToHead(metaTag);
+};
+
+export const removeMetaTag = (metaType, value) => {
+    const tag = document.querySelector(`[name="${metaType}"][content="${value}"]`);
+    tag && tag.remove();
+};
+
+export const handle404 = async (error) => {
+    const fourOhFour = await import(`../pages/404.md`);
+    setMetaTag('robots', 'noindex');
+    setAppTitle(fourOhFour.attributes.title || document.title);
+    setAppContent(fourOhFour.html);
+    onError(error);
 };
 
 export const setAppContent = (html) => {
@@ -31,7 +62,7 @@ export const loadPage = async (tpl, type = 'pages') => {
         setAppContent(page.html);
         setAppTitle(page.attributes.title || document.title);
     } catch (error) {
-        loadPage('404').catch((error) => console.error('Error loading Error.', error));
+        await handle404(error);
     }
 };
 
