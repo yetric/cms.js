@@ -10,11 +10,13 @@ Simple markdown driven site with routing client-side only - [yetric/cms.js](http
 -   Preconfigured for building and deploying on Netlify
 -   Preconfigured for CircleCI
 -   VanillaJS router and pushState management
+-   Session cache on pages
 
 ## TODO
 
 -   Handle images in markdown
 -   Create Specific Views for specific content types
+-   Prefetch pages before clicking on link
 
 ## Test Pages
 
