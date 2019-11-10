@@ -1,4 +1,4 @@
-import {isAbsolute, trackPageView} from './utils';
+import {isExistingPath, isPushStateURL} from './utils';
 import {triggerEvent, on} from './events';
 
 let APP_ROUTES = [];
@@ -58,11 +58,11 @@ const matchRoute = (path, traversableRoutes) => {
     return null;
 };
 
-const popStateHandler = async () => {
+const popStateHandler = async (event) => {
     await navigate(document.location.pathname);
 };
 
-const removeNavHandlers = () => {
+const removeNavHandlers = (event) => {
     window.removeEventListener('popstate', popStateHandler);
     document.removeEventListener('click', navigateHandler);
 };
@@ -79,39 +79,35 @@ export const navigate = async (path, doPushState = true) => {
     if (doPushState) {
         history.pushState({}, null, path);
         window.scrollTo(0, 0);
-        trackPageView(path);
     }
 };
 
 const navigateHandler = async (event) => {
     let {target} = event;
     if (target && target.tagName.toLowerCase() === 'a') {
-        if (!isAbsolute(target.getAttribute('href'))) {
+        const href = target.getAttribute('href');
+        if (isPushStateURL(href)) {
             event.preventDefault();
-            await navigate(target.getAttribute('href'));
+            await navigate(href);
         } else {
-            setAttributes(target, {
-                target: '_blank',
-                rel: 'noopener'
-            });
+            if (!isExistingPath(href)) {
+                target.setAttribute('target', '_blank');
+            }
         }
     }
 };
 
 export const nav = async (routes) => {
     APP_ROUTES = routesToTraversable(routes);
-    const callbacks = [];
+    const onNavHandlers = [];
     window.addEventListener('popstate', popStateHandler);
     window.addEventListener('beforeunload', removeNavHandlers);
     document.addEventListener('click', navigateHandler);
     await navigate(document.location.pathname, false);
     on(document, 'nav', (event) => {
-        callbacks.forEach((callback) => callback(event.detail));
+        onNavHandlers.forEach((handler) => handler(event.detail));
     });
-
     return {
-        onNav: (callback) => {
-            callbacks.push(callback);
-        }
+        onNav: (handler) => onNavHandlers.push(handler)
     };
 };

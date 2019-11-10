@@ -1,18 +1,26 @@
 export const isAbsolute = (url) => !!/^https?:\/\//i.test(url);
-export const analytics = () => {
-    let ga = window[window['GoogleAnalyticsObject'] || 'ga'];
-    return typeof ga === 'function' ? ga : () => {};
+export const isExistingPath = (href) => {
+    const avoidPushURLs = ['/rss.xml', '/sitemap.xml'];
+    return avoidPushURLs.indexOf(href) > -1;
+};
+
+export const isPushStateURL = (href) => !isAbsolute(href) && !isExistingPath(href);
+export const getTracker = () => {
+    if ('ga' in window) {
+        let tracker = ga.getAll()[0];
+        return tracker;
+    }
+    return null;
+};
+
+export const send = (...args) => {
+    const tracker = getTracker();
+    tracker && tracker.send.apply(tracker, args);
 };
 export const trackPageView = (path) => {
-    analytics('set', 'page', path);
+    send('pageview', path);
 };
 
 export const trackEvent = (category, action, label = null, value = null) => {
-    analytics('send', 'event', category, action, label, value);
-};
-
-export const setAttributes = (elm, attr) => {
-    for (let [key, value] of Object.entries(attr)) {
-        elm.setAttribute(key, value);
-    }
+    send('event', category, action, label, value);
 };
