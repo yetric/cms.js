@@ -4,7 +4,21 @@ export const isExistingPath = (href) => {
     return avoidPushURLs.indexOf(href) > -1;
 };
 
-export const isPushStateURL = (href) => !isAbsolute(href) && !isExistingPath(href);
+export const isCustomProtocol = (url) => {
+    const protocols = ['mailto', 'ftp', 'file', 'nntp', 'telnet', 'gopher'];
+    for (let i = 0; i < protocols.length; i++) {
+        const protocol = protocols[i];
+        if (url.startsWith(`${protocol}:`)) {
+            return true;
+        }
+    }
+
+    return false;
+};
+
+export const isPushStateURL = (href) => !isAbsolute(href) && !isExistingPath(href) && !isCustomProtocol(href);
+
+
 export const getTracker = () => {
     if ('ga' in window) {
         let tracker = ga.getAll()[0];
