@@ -1,5 +1,7 @@
 ---
 title: Yetric CMS
+scripts:
+    - custom/home.js
 ---
 
 # Yetric CMS

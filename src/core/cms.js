@@ -49,18 +49,32 @@ export const setAppTitle = (title) => {
     document.title = title;
 };
 
+export const isLocalScript = (script) => {
+    return true;
+};
+
 export const loadPage = async (tpl, type = 'pages') => {
     setAppContent('Laddar sida');
-    removeMetaTag('robots', 'noindex');
+    removeMetaTag('robots', 'noindex'); // TODO: Do this when you leave a noindex page
     try {
         let page = null;
         if (pageCache.hasOwnProperty(tpl)) {
             page = pageCache[tpl];
         } else {
-            page = await import(`../${type}/${tpl}.md`);
+            page = await import(/* webpackChunkName: "pages" */ `../${type}/${tpl}.md`);
             pageCache[tpl] = page;
         }
         setAppContent(page.html);
+        if (page.attributes.hasOwnProperty('scripts')) {
+            const customScripts = page.attributes.scripts;
+            customScripts.forEach((script) => {
+                if (isLocalScript(script)) {
+                    import('../' + script);
+                } else {
+                    // TODO: Add to head and remove on page view
+                }
+            });
+        }
         setAppTitle(page.attributes.title || document.title);
     } catch (error) {
         await handle404(error);
