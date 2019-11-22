@@ -1,1 +1,3 @@
-const embed = () => {};
+export const parseHtmlForEmbeds = (html) => {
+    return html;
+};

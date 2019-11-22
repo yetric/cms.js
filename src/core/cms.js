@@ -1,5 +1,6 @@
 import {isExistingPath, isPushStateURL, setAttributes} from './utils';
 import {triggerEvent, on} from './events';
+import {parseHtmlForEmbeds} from './embed';
 
 let APP_ROUTES = [];
 const appRoot = document.getElementById('app');
@@ -41,8 +42,27 @@ export const handle404 = async (error) => {
     onError(error);
 };
 
+export const importImagesToHtml = (html) => {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    const images = Array.from(div.getElementsByTagName('img'));
+    if (images.length > 0) {
+        images.forEach((image) => {
+            let imagePath = image.src;
+            let parser = document.createElement('a');
+            parser.href = imagePath;
+            let {protocol, host} = parser;
+            let domain = `${protocol}//${host}/`;
+            let relativeToSrcPath = imagePath.replace(domain, '');
+            let webpackImg = require('../' + relativeToSrcPath);
+            html = html.replace(relativeToSrcPath, webpackImg);
+        });
+    }
+    return html;
+};
+
 export const setAppContent = (html) => {
-    appRoot.innerHTML = html;
+    appRoot.innerHTML = parseHtmlForEmbeds(importImagesToHtml(html));
 };
 
 export const setAppTitle = (title) => {

@@ -87,6 +87,14 @@ const webpackConfig = {
             {
                 test: /\.md$/,
                 loader: 'frontmatter-markdown-loader'
+            },
+            {
+                test: /\.(png|jpe?g|gif)$/i,
+                use: [
+                    {
+                        loader: 'file-loader'
+                    }
+                ]
             }
         ]
     }
