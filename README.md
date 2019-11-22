@@ -12,6 +12,7 @@ Simple markdown driven site with routing client-side only - [yetric/cms.js](http
 -   VanillaJS router and pushState management
 -   Session cache on pages
 -   Handles 404 by setting robots noindex
+-   Add custom scripts (loaded relative to search or external) in frontmatter
 
 ## TODO
 
