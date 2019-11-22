@@ -51,6 +51,7 @@ export const setAppTitle = (title) => {
 
 export const loadPage = async (tpl, type = 'pages') => {
     setAppContent('Laddar sida');
+    removeMetaTag('robots', 'noindex');
     try {
         let page = null;
         if (pageCache.hasOwnProperty(tpl)) {
