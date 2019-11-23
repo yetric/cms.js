@@ -110,8 +110,15 @@ a.btn {
     background: #fff;
     border: 1px solid $nord4;
 
-    img {
+    img[src*="#js-embed"] {
         max-width: 100%;
+    }
+
+    ul {
+      padding: 0;
+      li {
+        margin-left: 16px;
+      }
     }
 }
 
