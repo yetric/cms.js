@@ -38,11 +38,7 @@ const overrides = devMode
                           }
                       }
                   })
-              ],
-              splitChunks: {
-                  chunks: 'all',
-                  name: false
-              }
+              ]
           }
       };
 
@@ -103,6 +99,18 @@ const webpackConfig = {
                         loader: 'html-loader',
                         options: {
                             minimize: true
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.ejs$/,
+                use: [
+                    {
+                        loader: 'ejs-webpack-loader',
+                        options: {
+                            data: {},
+                            htmlmin: true
                         }
                     }
                 ]
