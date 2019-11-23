@@ -55,7 +55,7 @@ export const importImagesToHtml = (html) => {
             let domain = `${protocol}//${host}/`;
             let relativeToSrcPath = imagePath.replace(domain, '');
             let webpackImg = require('../' + relativeToSrcPath);
-            html = html.replace(relativeToSrcPath, webpackImg);
+            html = html.replace(relativeToSrcPath, webpackImg + '#js-embed');
         });
     }
     return html;
