@@ -109,6 +109,10 @@ a.btn {
     padding: 20px;
     background: #fff;
     border: 1px solid $nord4;
+
+    img {
+        max-width: 100%;
+    }
 }
 
 .main {
