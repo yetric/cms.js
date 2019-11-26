@@ -29,6 +29,7 @@ Simple markdown driven site with routing client-side only - [yetric/cms.js](http
 -   Create Specific Views for specific content types
 -   Prefetch pages before clicking on link
 -   Admin and Remote Config via Firebase
+-  Enable HTTP/2 Push for Webpack generated resources via __headers file
 
 ## Test Pages
 
