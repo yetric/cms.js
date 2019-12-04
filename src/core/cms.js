@@ -1,15 +1,11 @@
 import {isExistingPath, isPushStateURL, setAttributes} from './utils';
 import {triggerEvent, on} from './events';
 import {parseHtmlForEmbeds} from './embed';
+import {getShareButton, supportsNativeShareWidget} from './share';
 
 let APP_ROUTES = [];
 const appRoot = document.getElementById('app');
 const pageCache = {};
-
-export const prefetch = async (tpl, type) => {
-    pageCache[tpl] = await import(`../${type}/${tpl}.md`);
-    return true;
-};
 
 export const onError = (error) => {
     console.error(error);
@@ -61,8 +57,18 @@ export const importImagesToHtml = (html) => {
     return html;
 };
 
-export const setAppContent = (html) => {
-    appRoot.innerHTML = parseHtmlForEmbeds(importImagesToHtml(html));
+const appendShareFunctionality = (parsedHTML) => {
+    const shareFunctionality = `<div class="share-widget">SHARE ME</div>`;
+    return parsedHTML + shareFunctionality;
+};
+
+export const setAppContent = (html, textOnly = false) => {
+    let shareButton = supportsNativeShareWidget() && !textOnly ? getShareButton('Share me') : null;
+    if (!textOnly) {
+        html = parseHtmlForEmbeds(importImagesToHtml(html));
+    }
+    appRoot.innerHTML = html;
+    shareButton && appRoot.insertAdjacentElement('beforeend', shareButton);
 };
 
 export const setAppTitle = (title) => {
@@ -74,7 +80,7 @@ export const isLocalScript = (script) => {
 };
 
 export const loadPage = async (tpl, type = 'pages') => {
-    setAppContent('Laddar sida');
+    setAppContent('<div class="page-loader"><span>Loading</span></div>', true);
     removeMetaTag('robots', 'noindex'); // TODO: Do this when you leave a noindex page
     try {
         let page = null;
@@ -101,7 +107,7 @@ export const loadPage = async (tpl, type = 'pages') => {
     }
 };
 
-const routesToTraversable = (routes) =>
+const routesToLookup = (routes) =>
     Object.keys(routes)
         .sort((a, b) => b.length - a.length)
         .map((path) => ({
@@ -164,7 +170,7 @@ const navigateHandler = async (event) => {
 };
 
 export const nav = async (routes) => {
-    APP_ROUTES = routesToTraversable(routes);
+    APP_ROUTES = routesToLookup(routes);
     const onNavHandlers = [];
     window.addEventListener('popstate', popStateHandler);
     window.addEventListener('beforeunload', removeNavHandlers);

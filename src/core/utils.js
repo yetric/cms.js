@@ -16,8 +16,8 @@ export const isCustomProtocol = (url) => {
     return false;
 };
 
-export const isPushStateURL = (href) => !isAbsolute(href) && !isExistingPath(href) && !isCustomProtocol(href);
-
+export const isPushStateURL = (href) =>
+    !isAbsolute(href) && !isExistingPath(href) && !isCustomProtocol(href);
 
 export const getTracker = () => {
     if ('ga' in window) {
@@ -39,10 +39,23 @@ export const trackEvent = (category, action, label = null, value = null) => {
     send('event', category, action, label, value);
 };
 
+export const setEventHandlers = (element, handlers) => {
+    for (let key in handlers) {
+        if (handlers.hasOwnProperty(key)) {
+            element.addEventListener(key, handlers[key]);
+        }
+    }
+    return element;
+};
+
 export const setAttributes = (element, attrs) => {
     for (let key in attrs) {
         if (attrs.hasOwnProperty(key)) {
             element.setAttribute(key, attrs[key]);
         }
     }
+    return element;
 };
+
+export const createElement = (tagName, attrs = {}, handlers = {}) =>
+    setEventHandlers(setAttributes(document.createElement(tagName), attrs), handlers);
