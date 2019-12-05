@@ -46,10 +46,9 @@ Simple markdown driven site with routing client-side only - [yetric/cms.js](http
     -   RSS Feeds
     -   Firebase Firestore
 
-## Test Pages
+## Contribute
 
--   Page: [About](/about)
--   Blog Post: [Test](/blog/test)
+Pull Requests are welcome! Fork the repo. For an easy start. Look at issues and start working on bugs or easier issues. Feel free to do a Pull Request for any item in the **TODO**-list.
 
 ## About
 
