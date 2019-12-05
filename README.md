@@ -14,6 +14,7 @@ Simple markdown driven site with routing client-side only - [yetric/cms.js](http
 -   Handles 404 by setting robots noindex
 -   Add custom scripts (loaded relative to search or external) in frontmatter
 -   Handle images in markdown
+-   Native share functionality via navigator.share
 
 ## TODO
 
@@ -21,7 +22,16 @@ Simple markdown driven site with routing client-side only - [yetric/cms.js](http
 -   Create Specific Views for specific content types
 -   Prefetch pages before clicking on link
 -   Admin and Remote Config via Firebase
+-   Enable HTTP/2 Push for Webpack generated resources via \_\_headers file
+-   Genererate HTML pages on build
+-   Generate Navigation on build
 -   Sentry for errors
+-   Automatically turn some links into embed (Yotube WiP)
+-   **Content Providers**
+    -   Svelte Components
+    -   Wordpress API
+    -   RSS Feeds
+    -   Firebase Firestore
 
 ## Test Pages
 
