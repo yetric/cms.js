@@ -2,6 +2,8 @@
 
 Simple markdown driven site with routing client-side only - [yetric/cms.js](https://github.com/yetric/cms.js)
 
+**Goal: To be a developer-first-CMS that is crazy fast for users and site owners.**
+
 ## Features
 
 -   Markdown Pages with Frontmatter Support
