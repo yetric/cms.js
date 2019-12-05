@@ -15,20 +15,26 @@ Simple markdown driven site with routing client-side only - [yetric/cms.js](http
 -   Add custom scripts (loaded relative to search or external) in frontmatter
 -   Handle images in markdown
 -   Native share functionality via navigator.share
+-   Basic config via cms.json
 
 ## TODO
 
 -   Custom Layouts
 -   Create Specific Views for specific content types
 -   Prefetch pages before clicking on link
+-   Subscribe to RSS via Notifications (Firebase or OneSignal)
+-   Cloud Functions implemented easily
 -   Admin and Remote Config via Firebase
 -   Enable HTTP/2 Push for Webpack generated resources via \_\_headers file
 -   Genererate HTML pages on build
 -   Generate Navigation on build
 -   Sentry for errors
 -   Automatically turn some links into embed (Yotube WiP)
+-   Plugin System
 -   **Content Providers**
     -   Svelte Components
+    -   React Components
+    -   Vue Components
     -   Wordpress API
     -   RSS Feeds
     -   Firebase Firestore
