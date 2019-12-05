@@ -30,7 +30,11 @@ Simple markdown driven site with routing client-side only - [yetric/cms.js](http
 -   Generate Navigation on build
 -   Sentry for errors
 -   Automatically turn some links into embed (Yotube WiP)
--   Plugin System
+-   CLI for cms.js
+-   **Plugin System**
+    -   Similar Content
+    -   Comments
+    -   Login via Firebase
 -   **Content Providers**
     -   Svelte Components
     -   React Components
