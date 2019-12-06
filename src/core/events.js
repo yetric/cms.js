@@ -1,3 +1,18 @@
+export const initObserver = (target, entryCallback, options = {}) => {
+    let defaultOptions = {
+        rootMargin: '0px',
+        threshold: 0.5,
+        root: document.body
+    };
+    let settings = {...defaultOptions, ...options};
+    let observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+            entryCallback(entry.target);
+        });
+    }, settings);
+    observer.observe(target);
+};
+
 export const triggerEvent = (el, eventType, detail) =>
     el.dispatchEvent(new CustomEvent(eventType, {detail}));
 
