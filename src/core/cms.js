@@ -1,6 +1,6 @@
 import {isExistingPath, isPushStateURL, setAttributes} from './utils';
 import {triggerEvent, on} from './events';
-import {parseHtmlForEmbeds} from './embed';
+import {listenForEmbeds} from './embed';
 import {getShareButton, supportsNativeShareWidget} from './share';
 
 let APP_ROUTES = [];
@@ -65,7 +65,7 @@ const appendShareFunctionality = (parsedHTML) => {
 export const setAppContent = (html, textOnly = false) => {
     let shareButton = supportsNativeShareWidget() && !textOnly ? getShareButton('Share me') : null;
     if (!textOnly) {
-        html = parseHtmlForEmbeds(importImagesToHtml(html));
+        html = importImagesToHtml(html);
     }
     appRoot.innerHTML = html;
     shareButton && appRoot.insertAdjacentElement('beforeend', shareButton);
@@ -175,7 +175,13 @@ export const nav = async (routes) => {
     window.addEventListener('popstate', popStateHandler);
     window.addEventListener('beforeunload', removeNavHandlers);
     document.addEventListener('click', navigateHandler);
+
+    document.addEventListener('DOMContentLoaded', () => {
+        listenForEmbeds();
+    });
+
     await navigate(document.location.pathname, false);
+
     on(document, 'nav', (event) => {
         onNavHandlers.forEach((handler) => handler(event.detail));
     });
