@@ -1,3 +1,5 @@
+import {initObserver} from './events';
+
 const getYoutubeVideoIdFromURL = (url) => {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     const match = url.match(regExp);
@@ -15,6 +17,8 @@ export const youtubeEmbed = (videoId) => {
 ></iframe></div>`;
 };
 
-export const parseHtmlForEmbeds = (html) => {
-    return html;
+export const listenForEmbeds = () => {
+    initObserver(document.querySelector('[href*="youtube.com"]'), (entry) => {
+        entry.innerHTML = youtubeEmbed(getYoutubeVideoIdFromURL(entry.href));
+    });
 };
