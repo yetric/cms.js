@@ -12,13 +12,16 @@ const getYoutubeVideoIdFromURL = (url) => {
 export const youtubeEmbed = (videoId) => {
     return `<div class="embed-youtube">
 <iframe width="560" height="315" frameborder="0"
-  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+  allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
   src="https://www.youtube.com/embed/${videoId}?autoplay=1"
 ></iframe></div>`;
 };
 
 export const listenForEmbeds = () => {
-    initObserver(document.querySelector('[href*="youtube.com"]'), (entry) => {
-        entry.innerHTML = youtubeEmbed(getYoutubeVideoIdFromURL(entry.href));
-    });
+    const elms = document.querySelector('[href*="youtube.com"]');
+    if (elms) {
+        initObserver(elms, (entry) => {
+            entry.innerHTML = youtubeEmbed(getYoutubeVideoIdFromURL(entry.href));
+        });
+    }
 };

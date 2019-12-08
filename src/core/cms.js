@@ -102,6 +102,7 @@ export const loadPage = async (tpl, type = 'pages') => {
             });
         }
         setAppTitle(page.attributes.title || document.title);
+        listenForEmbeds();
     } catch (error) {
         await handle404(error);
     }
@@ -175,10 +176,6 @@ export const nav = async (routes) => {
     window.addEventListener('popstate', popStateHandler);
     window.addEventListener('beforeunload', removeNavHandlers);
     document.addEventListener('click', navigateHandler);
-
-    document.addEventListener('DOMContentLoaded', () => {
-        listenForEmbeds();
-    });
 
     await navigate(document.location.pathname, false);
 
