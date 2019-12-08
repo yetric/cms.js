@@ -1,6 +1,8 @@
-const {writeFileSync} = require('../../bin/core/utils');
+const path = require('path');
+const fs = require('fs');
+
 const types = {
-    css: 'stylesheet',
+    css: 'style',
     js: 'script'
 };
 module.exports = class CreateNetlifyHeadersPlugin {
@@ -16,9 +18,10 @@ module.exports = class CreateNetlifyHeadersPlugin {
                     const type = types[filename.split('.').pop()];
                     paths.push(`Link: <${filename}>; rel=preload; as=${type}`);
                 });
-                writeFileSync(__dirname + `/../../public/_headers`, paths.join('\n  '));
+                const writeFolder = process.cwd() + '/public';
+                const fullPathToHeadersFile = `${writeFolder}/${headersFileName}`;
+                fs.writeFileSync(fullPathToHeadersFile, paths.join('\n  '));
             });
-
             callback();
         });
     }
