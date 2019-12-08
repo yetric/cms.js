@@ -7,7 +7,7 @@
     "scripts": {
         "dev": "cross-env NODE_ENV=development webpack-dev-server --hot --open --mode=development",
         "build": "cross-env NODE_ENV=production webpack --mode=production",
-        "deploy": "npm run build && npm run sitemap",
+        "deploy": "npm run build",
         "sitemap": "node bin/sitemap.js",
         "prettier": "prettier --write ./src/**/*.{js,css,json,md}"
     },

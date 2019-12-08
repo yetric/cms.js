@@ -10,7 +10,7 @@ module.exports = class CreateNetlifyHeadersPlugin {
         this.options = options;
     }
     apply(compiler) {
-        compiler.hooks.emit.tapAsync('MyPlugin', (compilation, callback) => {
+        compiler.hooks.afterEmit.tapAsync('CreateNetlifyHeadersPlugin', (compilation, callback) => {
             compilation.chunks.forEach((chunk) => {
                 const headersFileName = '_headers';
                 const paths = ['/'];
