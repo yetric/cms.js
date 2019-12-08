@@ -5,6 +5,7 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const devMode = process.env.NODE_ENV !== 'production';
 const TerserPlugin = require('terser-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const NetlifyHeadersPlugin = require('./webpack/create-netlify-headers-plugin');
 
 const overrides = devMode
     ? {
@@ -58,7 +59,8 @@ const webpackConfig = {
             ignoreOrder: false // Enable to remove warnings about conflicting order
         }),
         new OptimizeCssAssetsPlugin(),
-        new CleanWebpackPlugin()
+        new CleanWebpackPlugin(),
+        new NetlifyHeadersPlugin()
     ],
     module: {
         rules: [
