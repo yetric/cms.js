@@ -66,7 +66,7 @@ const writeHelperFile = async ({pagesPath, ignores, cmsConfig, type, suffix = 'x
                 // TODO: Sort by pubDate
             }
             render(type, {pages, cms: cmsConfig}, (rendered) => {
-                writeFileSync(__dirname + `/../../public/${type}.${suffix}`, rendered);
+                writeFileSync(`${process.cwd()}/public/${type}.${suffix}`, rendered);
             });
         },
         (error) => {
