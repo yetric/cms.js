@@ -18,6 +18,8 @@ Simple markdown driven site with routing client-side only - [yetric/cms.js](http
 -   Handle images in markdown
 -   Native share functionality via navigator.share
 -   Basic config via cms.json
+-   Enable HTTP/2 Push for Webpack generated resources via \_\_headers file
+-   Automatically turn some links into embed (Yotube WiP) (IntersectionObservers)
 
 ## TODO
 
@@ -28,11 +30,9 @@ Simple markdown driven site with routing client-side only - [yetric/cms.js](http
 -   Subscribe to RSS via Notifications (Firebase or OneSignal)
 -   Cloud Functions implemented easily
 -   Admin and Remote Config via Firebase
--   Enable HTTP/2 Push for Webpack generated resources via \_\_headers file
 -   Genererate HTML pages on build
 -   Generate Navigation on build
 -   Sentry for errors
--   Automatically turn some links into embed (Yotube WiP)
 -   CLI for cms.js
 -   **Plugin System**
     -   Similar Content
