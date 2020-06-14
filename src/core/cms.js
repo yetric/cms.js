@@ -79,30 +79,40 @@ export const isLocalScript = (script) => {
     return true;
 };
 
+export const renderPage = (page) => {
+    setAppContent(page.html);
+    if (page.attributes.hasOwnProperty('scripts')) {
+        const customScripts = page.attributes.scripts;
+        customScripts.forEach((script) => {
+            if (isLocalScript(script)) {
+                import('../' + script);
+            } else {
+                // TODO: Add to head and remove on page view
+            }
+        });
+    }
+    setAppTitle(page.attributes.title || document.title);
+    listenForEmbeds();
+};
+
 export const loadPage = async (tpl, type = 'pages') => {
     setAppContent('<div class="page-loader"><span>Loading</span></div>', true);
     removeMetaTag('robots', 'noindex'); // TODO: Do this when you leave a noindex page
     try {
-        let page = null;
         if (pageCache.hasOwnProperty(tpl)) {
-            page = pageCache[tpl];
+            renderPage(pageCache[tpl]);
         } else {
-            page = await import(/* webpackChunkName: "pages" */ `../${type}/${tpl}.md`);
-            pageCache[tpl] = page;
+            import(
+                /* webpackPrefetch: true */ /* webpackChunkName: "pages" */ `../${type}/${tpl}.md`
+            )
+                .then(({default: page}) => {
+                    pageCache[tpl] = page;
+                    renderPage(page);
+                })
+                .catch(() => {
+                    handle404(error);
+                });
         }
-        setAppContent(page.html);
-        if (page.attributes.hasOwnProperty('scripts')) {
-            const customScripts = page.attributes.scripts;
-            customScripts.forEach((script) => {
-                if (isLocalScript(script)) {
-                    import('../' + script);
-                } else {
-                    // TODO: Add to head and remove on page view
-                }
-            });
-        }
-        setAppTitle(page.attributes.title || document.title);
-        listenForEmbeds();
     } catch (error) {
         await handle404(error);
     }
